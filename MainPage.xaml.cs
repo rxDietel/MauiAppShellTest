@@ -2,11 +2,17 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private int count;
 
-        public MainPage()
+        public MainPage() : this(null)
+        {
+        }
+
+        public MainPage(string title)
         {
             InitializeComponent();
+            if (title != null)
+                ChangingLabel.Text = title;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

@@ -28,7 +28,7 @@ namespace MauiAppShellTest.ViewModels
             InsertShellItem(new ShellContent
             {
                 Title = $"{name} ({index})",
-                ContentTemplate = new DataTemplate(typeof(MainPage)),
+                ContentTemplate = new DataTemplate(() => new MainPage($"{name} ({index})")),
                 AutomationId = index.ToString()
             }, insertAt);
         }
