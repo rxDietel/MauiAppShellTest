@@ -4,6 +4,7 @@ namespace MauiAppShellTest.ViewModels
 {
     public partial class AppShellViewmodel
     {
+        private static bool _updateTriggerEnabled = true;
         private IList<ShellItem> ShellItems => Shell?.Items;
 
         private ShellItem Root => ShellItems.First(item => item.Route == "Items");
@@ -78,6 +79,12 @@ namespace MauiAppShellTest.ViewModels
             await Shell.GoToAsync(new ShellNavigationState($"///{store.Route}"));
         }
 
+        [RelayCommand]
+        private void DisableTrigger()
+        {
+            _updateTriggerEnabled = !_updateTriggerEnabled;
+        }
+
         private void InsertShellItem(ShellContent item, int index = -1)
         {
             Shell.Dispatcher.Dispatch(() =>
@@ -104,7 +111,7 @@ namespace MauiAppShellTest.ViewModels
             public UpdateFlyoutTrigger(int delay = 100)
             {
                 _delay = delay;
-                if (Shell.FlyoutBehavior == FlyoutBehavior.Locked)
+                if (Shell.FlyoutBehavior == FlyoutBehavior.Locked && _updateTriggerEnabled)
                 {
                     _hasTriggered = true;
                     Shell.FlyoutBehavior = FlyoutBehavior.Flyout;

@@ -29,5 +29,8 @@
     <MenuItem
         Command="{Binding SortCommand}"
         Text="sort items" />
+    <MenuItem
+        Command="{Binding DisableTriggerCommand}"
+        Text="disable Update Trigger" />
 
 </Shell>
