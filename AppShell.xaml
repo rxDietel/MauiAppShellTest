@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiAppShellTest.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiAppShellTest"
+    xmlns:viewModels="clr-namespace:MauiAppShellTest.ViewModels"
+    x:DataType="viewModels:AppShellViewmodel"
+    Shell.FlyoutBehavior="Locked"
+    TabBarIsVisible="False">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    <FlyoutItem
+        Title="Items"
+        FlyoutDisplayOptions="AsMultipleItems"
+        Route="Items" />
+    <MenuItem
+        Command="{Binding AddShellItemCommand}"
+        Text="add Shell Item" />
+    <MenuItem
+        Command="{Binding DeleteShellItemCommand}"
+        Text="remove Shell Item" />
+    <MenuItem
+        Command="{Binding RemoveHomeCommand}"
+        Text="remove home for some time" />
+    <MenuItem
+        Command="{Binding SortCommand}"
+        Text="sort items" />
+
+</Shell>
