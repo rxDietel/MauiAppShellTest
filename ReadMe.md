@@ -76,3 +76,37 @@ private async Task Sort()
     await Shell.GoToAsync(new ShellNavigationState($"///{store.Route}"));
 }
 ```
+
+## 4. AppShell crashes upon adding/removing items
+### Description:
+Upon adding or removing FlyoutItems during runtime, the AppShell occasionally crashes with nullReferenceExceptions.
+
+### Reprodution:
+#### 1. Add Items:
+- Start App
+- click on `disable add workaround`
+- click on `add Shell Item`
+- click on `add Shell Item`
+=> App will crash
+
+#### 2. Remove Items:
+- Start App
+- click on `disable remove workaround`
+- click on `add Shell Item`
+- click on `add Shell Item`
+- click on `add Shell Item`
+- click on `remove Shell Item`
+- click on `remove Shell Item`
+- click on `remove Shell Item`
+=> App will crash
+
+### Expected:
+- Items will be removed
+
+### Happening:
+- App throws NullReferenceException
+
+### Workaround
+- Workaround is instable
+- Make item invisible before removing
+- In some cases Make containing item invisible before removing
