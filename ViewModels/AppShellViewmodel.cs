@@ -5,10 +5,12 @@ namespace MauiAppShellTest.ViewModels
     public partial class AppShellViewmodel
     {
         private static bool _updateTriggerEnabled = true;
-        private IList<ShellItem> ShellItems => Shell?.Items;
+
+        private static bool _addItemWorkaroundDisabled;
+        private static bool _removeItemWorkaroundDisabled;
 
         private ShellItem Root => ShellItems.First(item => item.Route == "Items");
-
+        private IList<ShellItem> ShellItems => Shell?.Items;
         private static Shell Shell => Shell.Current;
 
         [RelayCommand]
@@ -40,8 +42,8 @@ namespace MauiAppShellTest.ViewModels
             {
                 var item = Root.Items.ElementAt(Random.Shared.Next(Root.Items.Count - 1));
                 if (Root.Items.Count == 1)
-                    Root.IsVisible = false;
-                item.IsVisible = false;
+                    Root.IsVisible = false || _removeItemWorkaroundDisabled;
+                item.IsVisible = false || _removeItemWorkaroundDisabled;
                 Root.Items.Remove(item);
                 Root.IsVisible = true;
             }
@@ -67,7 +69,7 @@ namespace MauiAppShellTest.ViewModels
         [RelayCommand]
         private async Task Sort()
         {
-            using var trigger = new UpdateFlyoutTrigger(500);
+            using var trigger = new UpdateFlyoutTrigger(1000);
             var store = Shell.CurrentItem;
             foreach (var item in ShellItems)
             {
@@ -85,11 +87,23 @@ namespace MauiAppShellTest.ViewModels
             _updateTriggerEnabled = !_updateTriggerEnabled;
         }
 
+        [RelayCommand]
+        private void DisableAddWorkaround()
+        {
+            _addItemWorkaroundDisabled = true;
+        }
+
+        [RelayCommand]
+        private void DisableRemoveWorkaround()
+        {
+            _removeItemWorkaroundDisabled = true;
+        }
+
         private void InsertShellItem(ShellContent item, int index = -1)
         {
             Shell.Dispatcher.Dispatch(() =>
             {
-                Root.IsVisible = false;
+                Root.IsVisible = false || _addItemWorkaroundDisabled;
                 if (index == -1) Root.Items.Add(item);
                 else Root.Items.Insert(index, item);
                 Root.IsVisible = true;

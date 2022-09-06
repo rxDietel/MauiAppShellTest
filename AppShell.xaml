@@ -32,5 +32,11 @@
     <MenuItem
         Command="{Binding DisableTriggerCommand}"
         Text="disable Update Trigger" />
+    <MenuItem
+        Command="{Binding DisableAddWorkaroundCommand}"
+        Text="disable add workaround" />
+    <MenuItem
+        Command="{Binding DisableRemoveWorkaroundCommand}"
+        Text="disable remove workaround" />
 
 </Shell>
